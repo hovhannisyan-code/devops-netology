@@ -3,16 +3,52 @@
 # another change
 
 ### .gitignore
-# This file is used to specify files and directories that should not be tracked by git.
-* *.terraform/
-* crash.log
-* crash.*.log
-* *.tfvars
-* *.tfvars.json
-* override.tf
-* override.tf.json
-* *_override.tf
-* *_override.tf.json
-* .terraform.tfstate.lock.info
-* .terraformrc
-* terraform.rc
+---
+
+## Игнорируемые файлы и папки
+
+1. **`.terraform/`**
+   Игнорируется вся папка `.terraform` в любом месте проекта.
+   *(Слэш в конце указывает, что это директория)*
+
+2. **`*.tfstate`, `*.tfstate.*`**
+   Игнорируются все файлы, у которых расширение `.tfstate`, а также любые файлы, начинающиеся с чего угодно и содержащие `.tfstate.` (например, `prod.tfstate.backup`).
+   *(Символ `*` обозначает любую последовательность символов)*
+
+3. **`crash.log`, `crash.*.log`**
+   Игнорируется файл `crash.log`, а также файлы, начинающиеся на `crash.`, далее любая последовательность символов, и заканчивающиеся на `.log` (например, `crash.20250722.log`).
+
+4. **`*.tfvars`, `*.tfvars.json`**
+   Игнорируются все файлы, заканчивающиеся на `.tfvars` и `.tfvars.json` (например, `secrets.tfvars`, `dev.tfvars.json`).
+
+5. **`override.tf`, `override.tf.json`**
+   Игнорируются строго файлы с именами `override.tf` и `override.tf.json`.
+
+6. **`*_override.tf`, `*_override.tf.json`**
+   Игнорируются файлы, в имени которых перед `_override.tf` и `_override.tf.json` может быть любой префикс (например, `dev_override.tf`, `prod_override.tf.json`).
+
+7. **`.terraform.tfstate.lock.info`**
+   Игнорируется файл с точным именем `.terraform.tfstate.lock.info`.
+
+8. **`*.terraformrc`, `terraform.rc`**
+   Игнорируются все файлы, оканчивающиеся на `.terraformrc`, а также файл с точным именем `terraform.rc`.
+
+9. **`*tfplan*`**
+   Игнорируются все файлы, в имени которых встречается подстрока `tfplan` (например, `main.tfplan`, `my-tfplan-output.txt`).
+   *(Символ `*` до и после подстроки означает, что `tfplan` может быть где угодно в имени файла)*
+
+10. **`.dot` файлы (опционально)**
+    Строка `# *.dot` закомментирована, но если раскомментировать — будут игнорироваться все файлы, оканчивающиеся на `.dot`.
+
+11. **`planout` (опционально)**
+    Также закомментированная строка `# planout` — если раскомментировать, будет игнорироваться файл с точным именем `planout`.
+
+---
+
+## Исключения из игнорирования
+
+* **`!example_override.tf`**
+  Если строка начинается с `!`, она **отменяет правило игнорирования**. В данном случае, файл `example_override.tf` будет **не проигнорирован**, даже если правило выше говорит игнорировать все `*_override.tf`.
+
+---
+
